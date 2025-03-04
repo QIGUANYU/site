@@ -1,57 +1,116 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>信息登记表</title>
+    <title>用户注册</title>
     <style>
-        /* 隐藏表格边框 */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 600px;
+            margin: 20px auto;
+            padding: 20px;
+            background-color: white;
+        }
         table {
+            width: 100%;
             border-collapse: collapse;
-            width: 60%;
-            margin: 30px auto;
         }
-        td, th {
-            border: none;
-            padding: 12px;
-            text-align: left;
+        td {
+            padding: 8px;
+            vertical-align: top;
         }
-        /* 表单输入框样式 */
-        input, select {
-            width: 200px;
+        .label-cell {
+            width: 120px;
+            padding: 12px 0;
+        }
+        input[type="text"], 
+        input[type="password"],
+        input[type="email"],
+        select,
+        textarea {
+            width: 250px;
             padding: 5px;
+        }
+        textarea {
+            height: 80px;
+        }
+        .submit-btn {
+            margin-top: 20px;
+            text-align: center;
+        }
+        button {
+            padding: 8px 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
-    <h2 style="text-align:center;">用户信息登记</h2>
+    <h2 style="text-align:center;">用户注册</h2>
     
     <form>
         <table>
             <tr>
-                <td><label for="name">姓名：</label></td>
-                <td><input type="text" id="name" name="name"></td>
+                <td class="label-cell">用户名称：</td>
+                <td><input type="text" value="wangsan"></td>
             </tr>
+            
             <tr>
-                <td><label for="gender">性别：</label></td>
+                <td class="label-cell">用户密码：</td>
+                <td><input type="password"></td>
+            </tr>
+            
+            <tr>
+                <td class="label-cell">用户性别：</td>
                 <td>
-                    <input type="radio" id="male" name="gender" value="male">
-                    <label for="male">男</label>
-                    <input type="radio" id="female" name="gender" value="female">
-                    <label for="female">女</label>
+                    <input type="radio" name="gender" id="male"> <label for="male">男</label>
+                    <input type="radio" name="gender" id="female"> <label for="female">女</label>
                 </td>
             </tr>
+            
             <tr>
-                <td><label for="country">国家：</label></td>
+                <td class="label-cell">爱好：</td>
                 <td>
-                    <select id="country" name="country">
-                        <option value="china">中国</option>
-                        <option value="usa">美国</option>
+                    <input type="checkbox" id="football"> <label for="football">足球</label><br>
+                    <input type="checkbox" id="basketball"> <label for="basketball">篮球</label><br>
+                    <input type="checkbox" id="lol"> <label for="lol">LOL</label><br>
+                    <input type="checkbox" id="drama"> <label for="drama">韩剧</label><br>
+                    <input type="checkbox" id="game"> <label for="game">王者荣耀</label>
+                </td>
+            </tr>
+            
+            <tr>
+                <td class="label-cell">邮箱：</td>
+                <td><input type="email" placeholder="请输入您的邮箱"></td>
+            </tr>
+            
+            <tr>
+                <td class="label-cell">用户头像：</td>
+                <td><input type="file"></td>
+            </tr>
+            
+            <tr>
+                <td class="label-cell">家庭住址：</td>
+                <td>
+                    <select>
+                        <option>陕西</option>
+                        <option>北京</option>
+                        <option>上海</option>
+                        <option>广东</option>
                     </select>
                 </td>
             </tr>
+            
+            <tr>
+                <td class="label-cell">建议或意见：</td>
+                <td><textarea placeholder="您的建议或者意见"></textarea></td>
+            </tr>
         </table>
         
-        <div style="text-align:center;">
-            <input type="submit" value="提交">
+        <div class="submit-btn">
+            <button type="submit">提交注册</button>
         </div>
     </form>
 </body>
