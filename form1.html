@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>信息登记表</title>
+    <style>
+        /* 隐藏表格边框 */
+        table {
+            border-collapse: collapse;
+            width: 60%;
+            margin: 30px auto;
+        }
+        td, th {
+            border: none;
+            padding: 12px;
+            text-align: left;
+        }
+        /* 表单输入框样式 */
+        input, select {
+            width: 200px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h2 style="text-align:center;">用户信息登记</h2>
+    
+    <form>
+        <table>
+            <tr>
+                <td><label for="name">姓名：</label></td>
+                <td><input type="text" id="name" name="name"></td>
+            </tr>
+            <tr>
+                <td><label for="gender">性别：</label></td>
+                <td>
+                    <input type="radio" id="male" name="gender" value="male">
+                    <label for="male">男</label>
+                    <input type="radio" id="female" name="gender" value="female">
+                    <label for="female">女</label>
+                </td>
+            </tr>
+            <tr>
+                <td><label for="country">国家：</label></td>
+                <td>
+                    <select id="country" name="country">
+                        <option value="china">中国</option>
+                        <option value="usa">美国</option>
+                    </select>
+                </td>
+            </tr>
+        </table>
+        
+        <div style="text-align:center;">
+            <input type="submit" value="提交">
+        </div>
+    </form>
+</body>
+</html>
