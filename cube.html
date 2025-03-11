@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style type="text/css">
+        body {
+            perspective: 1000px;
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f0f0;
+        }
+
+        .scene {
+            position: relative;
+            width: 1px;
+            height: 1px;
+            transform-style: preserve-3d;
+        }
+
+        div {
+            position: absolute;
+            width: 90px;
+            height: 100px;
+            opacity: 0.8;
+            transform-origin: center center;
+        }
+
+        #a {
+            background-color: red;
+            transform: rotateY(0deg) translateZ(100px);
+        }
+
+        #b {
+            background-color: yellow;
+            width: 110px;
+            height: 100px;
+            transform: 
+                rotateY(65deg) 
+                translateX(-120px) 
+                translateY(-25px) 
+                translateZ(120px) 
+                skewY(-25deg);
+        }
+
+        #c {
+            background-color: green;
+            transform: 
+                rotateX(60deg) 
+                translateX(23px) 
+                translateZ(86px) 
+                skewX(-25deg);
+        }
+    </style>
+</head>
+<body>
+    <div class="scene">
+        <div id="a"></div>
+        <div id="b"></div>
+        <div id="c"></div>
+    </div>
+</body>
+</html>
