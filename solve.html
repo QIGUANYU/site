@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<body>
+<script>
+    var a = prompt("请输入二次项系数 a:");
+    var b = prompt("请输入一次项系数 b:");
+    var c = prompt("请输入常数项 c:");
+
+    a = parseFloat(a);
+    b = parseFloat(b);
+    c = parseFloat(c);
+
+    var delta = b * b - 4 * a * c;
+
+    var x1 = (-b + Math.sqrt(delta)) / (2 * a);
+    var x2 = (-b - Math.sqrt(delta)) / (2 * a);
+
+    alert("x₁ = " + x1 + "\nx₂ = " + x2);
+
+    console.log("x₁:", x1);
+    console.log("x₂:", x2);
+</script>
+</body>
+</html>
