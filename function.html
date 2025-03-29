@@ -1,0 +1,54 @@
+<html>
+<head>
+    <title>Quadratic Equation Solver</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .equation-input { margin: 10px 0; }
+        input { width: 60px; padding: 5px; }
+        #solution { margin-top: 20px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="equation-input">
+        <input type="number" id="a" placeholder="a"> x² + 
+        <input type="number" id="b" placeholder="b"> x + 
+        <input type="number" id="c" placeholder="c"> = 0
+    </div>
+    <button onclick="solve()">Solve</button>
+    <div id="solution"></div>
+
+    <script>
+        function solve() {
+            const a = parseFloat(document.getElementById('a').value);
+            const b = parseFloat(document.getElementById('b').value);
+            const c = parseFloat(document.getElementById('c').value);
+            let result;
+
+            if (a === 0) {
+                if (b === 0) {
+                    result = c === 0 ? "无限解" : "无解";
+                } else {
+                    const x = -c / b;
+                    result = `x = ${x.toFixed(2)}`;
+                }
+            } else {
+                const D = b * b - 4 * a * c;
+                if (D > 0) {
+                    const x1 = (-b + Math.sqrt(D)) / (2 * a);
+                    const x2 = (-b - Math.sqrt(D)) / (2 * a);
+                    result = `x₁ = ${x1.toFixed(2)}, x₂ = ${x2.toFixed(2)}`;
+                } else if (D === 0) {
+                    const x = -b / (2 * a);
+                    result = `x = ${x.toFixed(2)}`;
+                } else {
+                    const real = (-b / (2 * a)).toFixed(2);
+                    const imag = (Math.sqrt(-D) / (2 * a)).toFixed(2);
+                    result = `x₁ = ${real}+${imag}i, x₂ = ${real}-${imag}i`;
+                }
+            }
+
+            document.getElementById('solution').innerHTML = result;
+        }
+    </script>
+</body>
+</html>
