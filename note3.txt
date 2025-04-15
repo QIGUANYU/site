@@ -1,0 +1,15 @@
+let list=[]
+for (let k = 2;k<n;k++)
+{
+	let isprime = ture;
+	for(let p of list)
+	{	
+		if(p>=Math.sqrt(k))
+			break;
+		if(k%p==0)
+		{	
+			isprime=false;
+			break;
+			}
+		}
+	}
