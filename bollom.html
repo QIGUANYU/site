@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<style>
+.balloon {
+  position: absolute;
+  transition: all 2s linear;
+  border-radius: 50%;
+  text-align: center;
+}
+</style>
+<body onload="init()">
+
+<script>
+const colors = ['red','orange','yellow','green','black','blue','purple'];
+const baseDiameter = 30;
+const burstHeight = 500;
+
+function Balloon() {
+  this.color = colors[Math.floor(Math.random()*7)];
+  this.diameter = baseDiameter;
+  this.y = 0;
+  
+  this.element = document.createElement('div');
+  this.element.className = 'balloon';
+  this.updateStyle();
+  document.body.appendChild(this.element);
+}
+
+Balloon.prototype = {
+  updateStyle() {
+    const scaleFactor = 1 + (this.y / burstHeight)*0.5;
+    this.element.style.cssText = `
+      width: ${baseDiameter * scaleFactor}px;
+      height: ${baseDiameter * scaleFactor}px;
+      background: ${this.color};
+      bottom: ${this.y}px;
+    `;
+  },
+  
+  burst() {
+    this.element.style.transition = 'transform 0.5s';
+    this.element.style.transform = 'scale(2)';
+    setTimeout(() => this.element.remove(), 500);
+  }
+}
+
+let balloons = [];
+
+function init() {
+  for(let i=0; i<5; i++) {
+    const b = new Balloon();
+    b.y = Math.random() * 600;
+    b.updateStyle();
+    balloons.push(b);
+  }
+
+  setInterval(() => {
+    balloons.forEach(b => {
+      if(b.y < burstHeight) {
+        b.y += 2;
+        b.updateStyle();
+      } else if(!b.burstTriggered) {
+        b.burstTriggered = true;
+        burstSequence(balloons.filter(b => b.y >= burstHeight));
+      }
+    })
+  }, 16);
+}
+
+function burstSequence(targets) {
+  targets.sort((a,b) => a.y - b.y);
+  targets.forEach((b, i) => {
+    setTimeout(() => b.burst(), i * 200);
+  });
+}
+</script>
+</body>
+</html>

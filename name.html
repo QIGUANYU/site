@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<body>
+<table>
+  <tr><th>Full Name</th></tr>
+  <tr><td>Zhang San</td></tr>
+  <tr><td>Li Si</td></tr>
+  <tr><td>Wang Wu</td></tr>
+  <tr><td>Zhao Liu</td></tr>
+</table>
+
+<script>
+window.onload = sortbylastname;
+
+function sortbylastname() {
+  const tbl = document.getElementsByTagName('table')[0];
+  const rows = Array.from(tbl.rows);
+  
+  // 保留表头，仅排序数据行
+  const sortedRows = rows.slice(1).sort((a, b) => {
+    const getLastName = cell => cell.innerHTML.split(' ')[1];
+    return getLastName(a.cells[0]).localeCompare(getLastName(b.cells[0]));
+  });
+
+  // 清空并重建表格
+  while (tbl.rows.length > 1) tbl.deleteRow(1);
+  sortedRows.forEach(row => tbl.appendChild(row));
+}
+</script>
+</body>
+</html>
