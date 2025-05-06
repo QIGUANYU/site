@@ -1,0 +1,173 @@
+<html>
+<head>
+    <title>Solar System with Info Table</title>
+    <style>
+        body { margin: 0; overflow: hidden; }
+        canvas { display: block; }
+        
+        #info-table {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-collapse: collapse;
+            z-index: 100;
+            font-family: Arial, sans-serif;
+        }
+        #info-table th, #info-table td {
+            padding: 8px 12px;
+            border: 1px solid #ddd;
+            cursor: pointer;
+        }
+        #info-table th:hover {
+            background: #f0f0f0;
+        }
+        .color-block {
+            width: 20px;
+            height: 20px;
+            border: 1px solid #000;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+        const celestialBodies = [
+            {
+                name: 'Sun',
+                mass: 1.989e30,
+                orbitRadius: 0,
+                color: '#ffd700',
+                diameter: 1.3927e6,
+                object: null
+            },
+            {
+                name: 'Mercury',
+                mass: 3.301e23,
+                orbitRadius: 57.9e6,
+                color: '#a0522d',
+                diameter: 4879,
+                object: null
+            },
+            {
+                name: 'Venus',
+                mass: 4.867e24,
+                orbitRadius: 108.2e6,
+                color: '#deb887',
+                diameter: 12104,
+                object: null
+            },
+            {
+                name: 'Earth',
+                mass: 5.972e24,
+                orbitRadius: 149.6e6,
+                color: '#4169e1',
+                diameter: 12742,
+                object: null
+            },
+            {
+                name: 'Mars',
+                mass: 6.417e23,
+                orbitRadius: 227.9e6,
+                color: '#cd5c5c',
+                diameter: 6779,
+                object: null
+            }
+        ];
+        celestialBodies.forEach(body => {
+            const geometry = new THREE.SphereGeometry(body.diameter/1e6, 32, 32);
+            const material = new THREE.MeshBasicMaterial({ color: body.color });
+            body.object = new THREE.Mesh(geometry, material);
+            scene.add(body.object);
+        });
+
+        camera.position.z = 500;
+        let infoTableVisible = false;
+        let sortColumn = -1;
+        let isAscending = true;
+
+        document.addEventListener('click', createInfoTable);
+
+        function createInfoTable() {
+            if (infoTableVisible) return;
+            infoTableVisible = true;
+
+            const table = document.createElement('table');
+            table.id = 'info-table';
+            const headers = ['名称', '质量 (kg)', '轨道半径 (km)', '颜色', '直径 (km)'];
+            const headerRow = document.createElement('tr');
+            headers.forEach((text, index) => {
+                const th = document.createElement('th');
+                th.textContent = text;
+                th.onclick = () => sortTable(index);
+                headerRow.appendChild(th);
+            });
+            table.appendChild(headerRow);
+            celestialBodies.forEach(body => {
+                const row = document.createElement('tr');
+                
+                [body.name, body.mass, body.orbitRadius, body.color, body.diameter].forEach((value, index) => {
+                    const td = document.createElement('td');
+                    if (index === 3) {
+                        const colorBlock = document.createElement('div');
+                        colorBlock.className = 'color-block';
+                        colorBlock.style.backgroundColor = value;
+                        td.appendChild(colorBlock);
+                    } else {
+                        td.textContent = value.toLocaleString();
+                    }
+                    row.appendChild(td);
+                });
+                
+                table.appendChild(row);
+            });
+
+            document.body.appendChild(table);
+        }
+
+        function sortTable(columnIndex) {
+            const rows = Array.from(document.querySelectorAll('#info-table tr')).slice(1);
+            const tbody = document.querySelector('#info-table tbody') || document.querySelector('#info-table');
+            
+            rows.sort((a, b) => {
+                const aVal = a.children[columnIndex].textContent || 
+                          a.children[columnIndex].querySelector('.color-block').style.backgroundColor;
+                const bVal = b.children[columnIndex].textContent || 
+                          b.children[columnIndex].querySelector('.color-block').style.backgroundColor;
+
+                if ([1, 2, 4].includes(columnIndex)) {
+                    return (parseFloat(aVal.replace(/,/g, '')) - parseFloat(bVal.replace(/,/g, ''))) * (isAscending ? 1 : -1);
+                }
+                return aVal.localeCompare(bVal) * (isAscending ? 1 : -1);
+            });
+            document.querySelectorAll('#info-table th').forEach(th => 
+                th.textContent = th.textContent.replace(/ ↑| ↓/g, ''));
+            document.querySelectorAll('#info-table th')[columnIndex].textContent += 
+                isAscending ? ' ↑' : ' ↓';
+            rows.forEach(row => tbody.appendChild(row));
+            isAscending = columnIndex === sortColumn ? !isAscending : true;
+            sortColumn = columnIndex;
+        }
+        function animate() {
+            requestAnimationFrame(animate);
+            
+            celestialBodies.forEach((body, index) => {
+                if (index !== 0) { 
+                    const time = Date.now() * 0.0001;
+                    body.object.position.x = Math.cos(time * (0.5 + index/10)) * body.orbitRadius/1e6;
+                    body.object.position.z = Math.sin(time * (0.5 + index/10)) * body.orbitRadius/1e6;
+                }
+            });
+
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
